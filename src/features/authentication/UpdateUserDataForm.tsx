@@ -9,7 +9,7 @@ import Input from "../../ui/Input";
 import { useUser } from "./useUser";
 import { useUpdateUser } from "./useUpdateUser";
 
-function UpdateUserDataForm() {
+export default function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
     user: {
@@ -81,5 +81,3 @@ function UpdateUserDataForm() {
     </Form>
   );
 }
-
-export default UpdateUserDataForm;

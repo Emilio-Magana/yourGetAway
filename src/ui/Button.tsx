@@ -48,7 +48,12 @@ const variations = {
   `,
 };
 
-const Button = styled.button`
+interface ButtonProps {
+  variation?: "primary" | "secondary" | "danger";
+  size?: "small" | "medium" | "large";
+}
+
+const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-sm);
