@@ -53,9 +53,15 @@ const Button = styled.button`
   }
 `;
 
-const ModalContext = createContext();
+type ModalContextType = {
+  openName: string;
+  close: () => void;
+  open: (name: string) => void;
+};
 
-function Modal({ children }) {
+const ModalContext = createContext<ModalContextType | undefined>(undefined);
+
+function Modal({ children }: { children: React.ReactNode }) {
   const [openName, setOpenName] = useState("");
 
   const close = () => setOpenName("");
@@ -68,14 +74,37 @@ function Modal({ children }) {
   );
 }
 
-function Open({ children, opens: opensWindowName }) {
-  const { open } = useContext(ModalContext);
+function Open({
+  children,
+  opens: opensWindowName,
+}: {
+  children: React.ReactElement;
+  opens: string;
+}) {
+  const modalContext = useContext(ModalContext);
+  if (!modalContext) {
+    return null;
+  }
+
+  const { open } = modalContext;
 
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
-function Window({ children, name }) {
-  const { openName, close } = useContext(ModalContext);
+function Window({
+  children,
+  name,
+}: {
+  children: React.ReactElement;
+  name: string;
+}) {
+  const modalContext = useContext(ModalContext);
+  if (!modalContext) {
+    return null;
+  }
+
+  const { openName, close } = modalContext;
+
   const ref = useOutsideClick(close);
 
   if (name !== openName) return null;

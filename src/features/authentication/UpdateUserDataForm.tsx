@@ -71,12 +71,15 @@ export default function UpdateUserDataForm() {
         <Button
           type="reset"
           variation="secondary"
+          size="medium"
           disabled={isUpdating}
           onClick={handleCancel}
         >
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update account</Button>
+        <Button disabled={isUpdating} variation="primary" size="medium">
+          Update account
+        </Button>
       </FormRow>
     </Form>
   );

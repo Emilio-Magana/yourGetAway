@@ -49,8 +49,8 @@ const variations = {
 };
 
 interface ButtonProps {
-  variation?: "primary" | "secondary" | "danger";
-  size?: "small" | "medium" | "large";
+  variation: "primary" | "secondary" | "danger";
+  size: "small" | "medium" | "large";
 }
 
 const Button = styled.button<ButtonProps>`
@@ -61,10 +61,5 @@ const Button = styled.button<ButtonProps>`
   ${(props) => sizes[props.size]}
   ${(props) => variations[props.variation]}
 `;
-
-Button.defaultProps = {
-  variation: "primary",
-  size: "medium",
-};
 
 export default Button;

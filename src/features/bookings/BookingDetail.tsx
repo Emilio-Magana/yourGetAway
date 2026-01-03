@@ -14,7 +14,7 @@ import Spinner from "../../ui/Spinner";
 import { useNavigate } from "react-router-dom";
 import { HiArrowUpOnSquare } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
-import Modal from "../../ui/Modal";
+import Modal from "../../context/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import { useDeleteBooking } from "./useDeleteBooking";
 import Empty from "../../ui/Empty";
@@ -58,13 +58,19 @@ function BookingDetail() {
 
       <ButtonGroup>
         {status === "unconfirmed" && (
-          <Button onClick={() => navigate(`/checkin/${bookingId}`)}>
+          <Button
+            size="medium"
+            variation="primary"
+            onClick={() => navigate(`/checkin/${bookingId}`)}
+          >
             Check in
           </Button>
         )}
 
         {status === "checked-in" && (
           <Button
+            size="medium"
+            variation="primary"
             icon={<HiArrowUpOnSquare />}
             onClick={() => checkout(bookingId)}
             disabled={isCheckingOut}
@@ -75,7 +81,9 @@ function BookingDetail() {
 
         <Modal>
           <Modal.Open opens="delete">
-            <Button variation="danger">Delete booking</Button>
+            <Button size="medium" variation="danger">
+              Delete booking
+            </Button>
           </Modal.Open>
 
           <Modal.Window name="delete">
@@ -91,7 +99,7 @@ function BookingDetail() {
           </Modal.Window>
         </Modal>
 
-        <Button variation="secondary" onClick={moveBack}>
+        <Button variation="secondary" size="medium" onClick={moveBack}>
           Back
         </Button>
       </ButtonGroup>

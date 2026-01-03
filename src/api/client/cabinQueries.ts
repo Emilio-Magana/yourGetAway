@@ -26,7 +26,7 @@ export function useCreateCabin() {
       toast.success("New cabin successfully created");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err: Error) => toast.error(err.message),
   });
 
   return { isCreating, createCabin };
@@ -44,7 +44,7 @@ export function useDeleteCabin() {
         queryKey: ["cabins"],
       });
     },
-    onError: (err: any) => toast.error(err.message),
+    onError: (err: Error) => toast.error(err.message),
   });
 
   return { isDeleting, deleteCabin };
@@ -59,7 +59,7 @@ export function useEditCabin() {
       toast.success("Cabin successfully edited");
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err: Error) => toast.error(err.message),
   });
 
   return { isEditing, editCabin };

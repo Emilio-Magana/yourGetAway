@@ -19,7 +19,7 @@ function UpdateSettingsForm() {
 
   if (isLoading) return <Spinner />;
 
-  function handleUpdate(e, field) {
+  function handleUpdate(e: React.ChangeEvent<HTMLInputElement>, field: string) {
     const { value } = e.target;
 
     if (!value) return;

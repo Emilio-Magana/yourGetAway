@@ -10,7 +10,12 @@ import FormRow from "../../ui/FormRow";
 import { useCreateCabin } from "./useCreateCabin";
 import { useEditCabin } from "./useEditCabin";
 
-function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
+type RegisterOptions = {
+  value: any;
+  message: string;
+};
+
+function CreateCabinForm({ cabinToEdit = {}, onCloseModal = () => {} }) {
   const { isCreating, createCabin } = useCreateCabin();
   const { isEditing, editCabin } = useEditCabin();
   const isWorking = isCreating || isEditing;
@@ -24,6 +29,8 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   const { errors } = formState;
 
   function onSubmit(data) {
+    // ...
+
     const image = typeof data.image === "string" ? data.image : data.image[0];
 
     if (isEditSession)
@@ -49,7 +56,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   }
 
   function onError(errors) {
-    // console.log(errors);
+    console.log(errors);
   }
 
   return (
@@ -127,7 +134,6 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           })}
         />
       </FormRow>
-
       <FormRow label="Cabin photo">
         <FileInput
           id="image"
@@ -142,12 +148,13 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
         {/* type is an HTML attribute! */}
         <Button
           variation="secondary"
+          size="medium"
           type="reset"
           onClick={() => onCloseModal?.()}
         >
           Cancel
         </Button>
-        <Button disabled={isWorking}>
+        <Button size="medium" variation="primary" disabled={isWorking}>
           {isEditSession ? "Edit cabin" : "Create new cabin"}
         </Button>
       </FormRow>

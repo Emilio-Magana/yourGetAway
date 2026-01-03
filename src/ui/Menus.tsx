@@ -29,7 +29,11 @@ const StyledToggle = styled.button`
   }
 `;
 
-const StyledList = styled.ul`
+interface StlyedListProps {
+  position: { x: number; y: number };
+}
+
+const StyledList = styled.ul<StlyedListProps>`
   position: fixed;
 
   background-color: var(--color-grey-0);
@@ -65,9 +69,16 @@ const StyledButton = styled.button`
   }
 `;
 
-const MenusContext = createContext();
+type MenusContextType = {
+  openId: string;
+  close: () => void;
+  open: (id: string) => void;
+  position: any;
+  setPosition: any;
+};
 
-function Menus({ children }) {
+const MenusContext = createContext<MenusContextType | undefined>(undefined);
+function Menus({ children }: { children: React.ReactNode }) {
   const [openId, setOpenId] = useState("");
   const [position, setPosition] = useState(null);
 
@@ -83,13 +94,17 @@ function Menus({ children }) {
   );
 }
 
-function Toggle({ id }) {
-  const { openId, close, open, setPosition } = useContext(MenusContext);
+function Toggle({ id }: { id: string }) {
+  const menusContext = useContext(MenusContext);
+  if (!menusContext) {
+    return null;
+  }
+  const { openId, close, open, setPosition } = menusContext;
 
-  function handleClick(e) {
+  function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
 
-    const rect = e.target.closest("button").getBoundingClientRect();
+    const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
     setPosition({
       x: window.innerWidth - rect.width - rect.x,
       y: rect.y + rect.height + 8,
@@ -105,9 +120,13 @@ function Toggle({ id }) {
   );
 }
 
-function List({ id, children }) {
-  const { openId, position, close } = useContext(MenusContext);
-  const ref = useOutsideClick(close, false);
+function List({ id, children }: { id: string; children: React.ReactNode }) {
+  const menusContext = useContext(MenusContext);
+  if (!menusContext) {
+    return null;
+  }
+  const { openId, position, close } = menusContext;
+  const ref = useOutsideClick<HTMLUListElement>(close, false);
 
   if (openId !== id) return null;
 
@@ -119,8 +138,20 @@ function List({ id, children }) {
   );
 }
 
-function Button({ children, icon, onClick }) {
-  const { close } = useContext(MenusContext);
+function Button({
+  children,
+  icon,
+  onClick,
+}: {
+  children: React.ReactNode;
+  icon?: React.ReactNode;
+  onClick?: () => void;
+}) {
+  const menusContext = useContext(MenusContext);
+  if (!menusContext) {
+    return null;
+  }
+  const { close } = menusContext;
 
   function handleClick() {
     onClick?.();
